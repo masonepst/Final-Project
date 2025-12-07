@@ -82,7 +82,7 @@ while True:
         Laser: {laser}
         </p>
         """
-            delay(2)
+            time.sleep(2)
             GPIO.output(25, GPIO.HIGH)
             laser = "ON"
             time.sleep(2)
