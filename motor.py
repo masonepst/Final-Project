@@ -92,7 +92,7 @@ while True:
         motor2 = 0
 
         # motor1 is bottom and motor2 is laser axis
-        for stud_id, (dist_r, dist_theta) in dist_turrets.items():
+        for stud_id, (dist_r, dist_theta, theta) in dist_turrets.items():
             if stud_id == "7":
                 continue
 
@@ -110,7 +110,7 @@ while True:
             GPIO.output(25, GPIO.HIGH)
             time.sleep(2)
 
-        for (dist_r, dist_theta, dist_z) in dist_globes:
+        for (dist_r, dist_theta, dist_z, theta) in dist_globes:
             GPIO.output(25, GPIO.LOW)
             time.sleep(2)
 
