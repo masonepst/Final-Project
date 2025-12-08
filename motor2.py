@@ -51,8 +51,7 @@ def parsePOSTdata(data):
 
 
 turrets, globes = JSON_pull()
-dist_globes, dist_turrets = my_turret_distances(turrets, globes)
-
+dist_globes, dist_turrets, my_r, my_theta = my_turret_distances(turrets, globes)
 for stud_id, (dist_r, dist_theta, theta) in dist_turrets.items():
     print(f"turret {stud_id}: delta r = {dist_r:.2f}, delta theta = {dist_theta:.2f} degrees")
 
@@ -76,7 +75,7 @@ def Run():
             laser = "OFF"
             time.sleep(2)
 
-            motor1 = (180-my_theta+theta)/2
+            motor1 = (180 - math.degrees(my_theta) + math.degrees(theta)) / 2
             m1.goAngle(motor1)
 
             motor2 = 0
@@ -100,7 +99,7 @@ def Run():
         laser = "OFF"
         time.sleep(2)
 
-        motor1 = (180-my_theta+theta)/2
+        motor1 = (180 - math.degrees(my_theta) + math.degrees(theta)) / 2
         length = 2 * my_r * math.cos(math.radians(motor1))
         motor2 = math.degrees(math.atan(dist_z / length))
 
