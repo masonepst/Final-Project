@@ -53,10 +53,10 @@ def parsePOSTdata(data):
 turrets, globes = JSON_pull()
 dist_globes, dist_turrets = my_turret_distances(turrets, globes)
 
-for stud_id, (dist_r, dist_theta) in dist_turrets.items():
+for stud_id, (dist_r, dist_theta, theta) in dist_turrets.items():
     print(f"turret {stud_id}: delta r = {dist_r:.2f}, delta theta = {dist_theta:.2f} degrees")
 
-for (dist_r, dist_theta, dist_z) in dist_globes:
+for (dist_r, dist_theta, dist_z, theta) in dist_globes:
     print(f"delta r = {dist_r:.2f}, delta theta = {dist_theta:.2f} degrees, delta z = {dist_z:.2f}")
 
 def Run():
@@ -66,7 +66,7 @@ def Run():
     motor = "Started"
     print("started")
 
-    for stud_id, (dist_r, dist_theta) in dist_turrets.items():
+    for stud_id, (dist_r, dist_theta, theta) in dist_turrets.items():
             if stud_id == "7":
                 continue
             target = f"Turret {stud_id}"
@@ -92,7 +92,7 @@ def Run():
             laser = "ON"
             time.sleep(2)
 
-    for (dist_r, dist_theta, dist_z) in dist_globes:
+    for (dist_r, dist_theta, dist_z, theta) in dist_globes:
         target = f"Globe: [{dist_r}, {dist_theta}, {dist_z}]"
         location = f"(r={dist_r:.2f}, theta={dist_theta:.2f}, z={dist_z:.2f})"
        
@@ -101,8 +101,8 @@ def Run():
         time.sleep(2)
 
         motor1 = (180-my_theta+theta)/2
-        length = 2*my_r*math.cos(motor1)
-        motor2 = math.degrees(math.atan(dist_z, length))
+        length = 2 * my_r * math.cos(math.radians(motor1))
+        motor2 = math.degrees(math.atan(dist_z / length))
 
         current = f"Motor1={motor1:.1f}, Motor2={motor2:.1f}"
         m1.goAngle(motor1)
