@@ -60,8 +60,8 @@ for (dist_r, dist_theta, dist_z) in dist_globes:
     print(f"delta r = {dist_r:.2f}, delta theta = {dist_theta:.2f} degrees, delta z = {dist_z:.2f}")
 
 def Run():
-    status = "Running"
     global motor, target, location, current, laser, motor1, motor2, status
+    status = "Running"
 
     motor = "Started"
     print("started")
@@ -124,6 +124,35 @@ while True:
     conn, addr = sock.accept()
     data = parsePOSTdata(conn.recv(1024).decode())
 
+    if "laser_on" in data:
+        GPIO.output(25, GPIO.HIGH)
+        print("Laser ON")
+
+    if "laser_off" in data:
+        GPIO.output(25, GPIO.LOW)
+        print("Laser OFF")
+
+    if "zero" in data:
+        print("Zeroing motors...")
+        m1.zero()
+        m2.zero()
+        motor1 = 0
+        motor2 = 0
+
+    if "m1_angle" in data:
+            angle = float(data["m1_angle"])
+            print(f"Moving Motor1 to {angle}")
+            m1.goAngle(angle)
+            motor1 = angle
+            current = f"motor1={motor1:.1f}, motor2={motor2:.1f}"
+
+    if "m2_angle" in data:
+            angle = float(data["m2_angle"])
+            print(f"Moving Motor2 to {angle}")
+            m2.goAngle(angle)
+            motor2 = angle
+            current = f"motor1={motor1:.1f}, motor2={motor2:.1f}"
+
     if "start" in data:
         t = threading.Thread(target=Run, daemon=True)
         t.start()
@@ -146,16 +175,33 @@ while True:
   <form method="POST">
     <button name="start" value="go" 
             style="width:160px;height:50px;font-size:18px;">
-      START SWEEP
+      START
     </button>
   </form>
 
   <h3>Status</h3>
-  <p><b>Sweep Status:</b> {status}</p>
+  <p><b>Status:</b> {status}</p>
   <p><b>Current Target:</b> {target}</p>
   <p><b>Location:</b> {location}</p>
   <p><b>Motor Angles:</b> {current}</p>
   <p><b>Laser:</b> {laser}</p>
+
+  <h3>Laser Control</h3>
+  <form method="POST">
+    <button name="laser_on" value="1" style="width:120px;height:40px;">Laser ON</button>
+    <button name="laser_off" value="1" style="width:120px;height:40px;">Laser OFF</button>
+  </form>
+
+  <h3>Manual Motor Control</h3>
+  <form method="POST">
+    Motor1: <input type="number" step="0.1" name="m1_angle"><br><br>
+    Motor2: <input type="number" step="0.1" name="m2_angle"><br><br>
+    <button style="width:120px;height:40px;">Set Angles</button>
+  </form>
+
+  <form method="POST">
+    <button name="zero" value="1" style="width:140px;height:40px;">ZERO MOTORS</button>
+  </form>
 
 </body>
 </html>
