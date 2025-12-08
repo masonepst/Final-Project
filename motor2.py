@@ -76,14 +76,15 @@ def Run():
             laser = "OFF"
             time.sleep(2)
 
-            motor1 = dist_theta
+            motor1 = (180-my_theta+theta)/2
+            m1.goAngle(motor1)
+
             motor2 = 0
+            m2.goAngle(motor2)
 
             current = f"Motor1 = {motor1:.1f}, Motor2 = {motor2:.1f}"
 
             
-            m1.goAngle(motor1)
-            m2.goAngle(motor2)  # Laser faces down to other turrets
 
             time.sleep(2)
 
@@ -93,14 +94,15 @@ def Run():
 
     for (dist_r, dist_theta, dist_z) in dist_globes:
         target = f"Globe: [{dist_r}, {dist_theta}, {dist_z}]"
-        location = f"(r={dist_r:.2f}, θ={dist_theta:.2f}, z={dist_z:.2f})"
+        location = f"(r={dist_r:.2f}, theta={dist_theta:.2f}, z={dist_z:.2f})"
        
         GPIO.output(25, GPIO.LOW)
         laser = "OFF"
         time.sleep(2)
 
-        motor2 = math.degrees(math.atan2(dist_z, dist_r))
-        motor1 = dist_theta
+        motor1 = (180-my_theta+theta)/2
+        length = 2*my_r*math.cos(motor1)
+        motor2 = math.degrees(math.atan(dist_z, length))
 
         current = f"Motor1={motor1:.1f}, Motor2={motor2:.1f}"
         m1.goAngle(motor1)

@@ -99,7 +99,7 @@ while True:
             GPIO.output(25, GPIO.LOW)
             time.sleep(2)
 
-            motor1 = dist_theta
+            motor1 = (180-my_theta+theta)/2
             m1.goAngle(motor1)
 
             motor2 = 0
@@ -114,8 +114,10 @@ while True:
             GPIO.output(25, GPIO.LOW)
             time.sleep(2)
 
-            motor2 = math.degrees(math.atan2(dist_z, dist_r))
-            motor1 = dist_theta
+
+            motor1 = (180-my_theta+theta)/2
+            length = 2*my_r*math.cos(motor1)
+            motor2 = math.degrees(math.atan(dist_z, length))
 
             m1.goAngle(motor1)
             m2.goAngle(motor2)
