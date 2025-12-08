@@ -56,6 +56,35 @@ while True:
     conn, addr = sock.accept()
     data = parsePOSTdata(conn.recv(1024).decode())
 
+
+    if "laser_on" in data:
+        GPIO.output(25, GPIO.HIGH)
+        print("Laser ON")
+
+    if "laser_off" in data:
+        GPIO.output(25, GPIO.LOW)
+        print("Laser OFF")
+
+    if "zero" in data:
+        print("Zeroing motors...")
+        m1.zero()
+        m2.zero()
+        motor1 = 0
+        motor2 = 0
+
+    if "m1_angle" in data:
+            angle = float(data["m1_angle"])
+            print(f"Moving Motor1 to {angle}")
+            m1.goAngle(angle)
+            motor1 = angle
+
+    if "m2_angle" in data:
+            angle = float(data["m2_angle"])
+            print(f"Moving Motor2 to {angle}")
+            m2.goAngle(angle)
+            motor2 = angle
+            
+
     if "start" in data:
         print("starting")
 
@@ -111,9 +140,29 @@ while True:
     </button>
   </form>
 
+  <h3>Laser Manual Control</h3>
+  <form method="POST">
+    <button name="laser_on" value="1" style="width:140px;height:40px;">Laser ON</button>
+    <button name="laser_off" value="1" style="width:140px;height:40px;">Laser OFF</button>
+  </form>
+
+  <h3>Motor Manual Control</h3>
+  <form method="POST">
+    Motor 1 Angle: <input name="m1_angle" type="number" step="0.1"><br><br>
+    Motor 2 Angle: <input name="m2_angle" type="number" step="0.1"><br><br>
+    <button style="width:120px;height:40px;">Set Angles</button>
+  </form>
+
+  <form method="POST">
+    <button name="zero" value="1" style="width:160px;height:40px;">
+      ZERO MOTORS
+    </button>
+  </form>
+
 </body>
 </html>
 """
+
 
     conn.send(b"HTTP/1.1 200 OK\r\n")
     conn.send(b"Content-Type: text/html\r\n")
