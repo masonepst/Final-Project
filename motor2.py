@@ -167,7 +167,7 @@ while True:
     html = f"""<!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="refresh" content="1">
+  <meta http-equiv="refresh" content="4">
 </head>
 <body>
 
