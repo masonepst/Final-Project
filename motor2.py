@@ -127,10 +127,12 @@ while True:
 
     if "laser_on" in data:
         GPIO.output(25, GPIO.HIGH)
+        laser ="ON"
         print("Laser ON")
 
     if "laser_off" in data:
         GPIO.output(25, GPIO.LOW)
+        laser = "OFF"
         print("Laser OFF")
 
     if "zero" in data:
@@ -139,6 +141,7 @@ while True:
         m2.zero()
         motor1 = 0
         motor2 = 0
+        current = f"Motor1={motor1:.1f}, Motor2={motor2:.1f}"
 
     if "m1_angle" in data:
             angle = float(data["m1_angle"])
