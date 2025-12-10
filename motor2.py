@@ -177,13 +177,6 @@ while True:
         if stud_id in dist_turrets:
             theta_deg = math.degrees(dist_turrets[stud_id][2])  # actual θ
 
-    # Build turret table
-    turret_table = ""
-    for stud_id, (dist_r, dist_theta, theta, abs_r) in dist_turrets.items():
-        if stud_id == "7":
-            continue
-        turret_table += f"<tr><td>{stud_id}</td><td>{dist_r:.2f}</td><td>{dist_theta:.2f}</td></tr>"
-
         
     # HTML response
     html = f"""<!DOCTYPE html>
@@ -201,14 +194,6 @@ while True:
     .bar-fill {{
       height: 12px;
       border-radius: 6px;
-    }}
-    table {{
-      border-collapse: collapse;
-      margin-top: 15px;
-    }}
-    th, td {{
-      border: 1px solid black;
-      padding: 6px 10px;
     }}
     #compass {{
       width: 200px;
@@ -253,14 +238,14 @@ while True:
   <h3>Motor Angle Visualization</h3>
 
   <div>
-    <div>Motor 1: <b>{motor1:.1f}°</b></div>
+    <div>Motor 1: <b>{motor1:.1f}</b></div>
     <div class="bar-container">
       <div class="bar-fill" style="width:{motor1_perc:.1f}%; background:#4CAF50;"></div>
     </div>
   </div>
 
   <div>
-    <div>Motor 2: <b>{motor2:.1f}°</b></div>
+    <div>Motor 2: <b>{motor2:.1f}</b></div>
     <div class="bar-container">
       <div class="bar-fill" style="width:{motor2_perc:.1f}%; background:#2196F3;"></div>
     </div>
@@ -271,17 +256,6 @@ while True:
   <div id="compass">
     <div id="arrow"></div>
   </div>
-
-  <!-- =============== RELATIVE TURRET TABLE =================== -->
-  <h3>Turret Map (Relative Positions)</h3>
-  <table>
-    <tr>
-      <th>Turret ID</th>
-      <th>Δr (cm)</th>
-      <th>Δθ (°)</th>
-    </tr>
-    {turret_table}
-  </table>
 
   <!-- ========================================================= -->
 
@@ -305,6 +279,8 @@ while True:
 </body>
 </html>
 """
+
+
 
 
 
