@@ -69,7 +69,7 @@ def Run():
             if stud_id == "7":
                 continue
             target = f"Turret {stud_id}"
-            location = f"(r={dist_r:.2f}, theta ={dist_theta:.2f}, z=N/A)"
+            location = f"(r={r:.2f}, theta ={dist_theta:.2f}, z=N/A)"
 
             GPIO.output(25, GPIO.LOW)
             laser = "OFF"
@@ -92,8 +92,8 @@ def Run():
             time.sleep(2)
 
     for (dist_r, dist_theta, dist_z, theta) in dist_globes:
-        target = f"Globe: [{dist_r}, {dist_theta}, {dist_z}]"
-        location = f"(r={dist_r:.2f}, theta={dist_theta:.2f}, z={dist_z:.2f})"
+        target = f"Globe: [{r}, {dist_theta}, {dist_z}]"
+        location = f"(r={r:.2f}, theta={dist_theta:.2f}, z={dist_z:.2f})"
        
         GPIO.output(25, GPIO.LOW)
         laser = "OFF"
