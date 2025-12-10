@@ -52,10 +52,10 @@ def parsePOSTdata(data):
 
 turrets, globes = JSON_pull()
 dist_globes, dist_turrets, my_r, my_theta = my_turret_distances(turrets, globes)
-for stud_id, (dist_r, dist_theta, theta) in dist_turrets.items():
+for stud_id, (dist_r, dist_theta, theta, r) in dist_turrets.items():
     print(f"turret {stud_id}: delta r = {dist_r:.2f}, delta theta = {dist_theta:.2f} degrees")
 
-for (dist_r, dist_theta, dist_z, theta) in dist_globes:
+for (dist_r, dist_theta, dist_z, theta, r) in dist_globes:
     print(f"delta r = {dist_r:.2f}, delta theta = {dist_theta:.2f} degrees, delta z = {dist_z:.2f}")
 
 def Run():
