@@ -165,13 +165,72 @@ while True:
         motor2 = 0
 
         # motor1 is bottom and motor2 is laser axis
+
+    # Motor bar percentages (0–180° mapped to 0–100%)
+    motor1_perc = (motor1 % 180) / 180 * 100
+    motor2_perc = (motor2 % 180) / 180 * 100
+
+    # Compass arrow rotation
+    theta_deg = 0
+    if isinstance(target, str) and "Turret" in target:
+        stud_id = target.split()[-1]
+        if stud_id in dist_turrets:
+            theta_deg = math.degrees(dist_turrets[stud_id][2])  # actual θ
+
+    # Build turret table
+    turret_table = ""
+    for stud_id, (dist_r, dist_theta, theta, abs_r) in dist_turrets.items():
+        if stud_id == "7":
+            continue
+        turret_table += f"<tr><td>{stud_id}</td><td>{dist_r:.2f}</td><td>{dist_theta:.2f}</td></tr>"
+
         
     # HTML response
     html = f"""<!DOCTYPE html>
 <html>
 <head>
   <meta http-equiv="refresh" content="2">
+  <style>
+    .bar-container {{
+      width: 300px; 
+      height: 12px;
+      background: #ccc; 
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }}
+    .bar-fill {{
+      height: 12px;
+      border-radius: 6px;
+    }}
+    table {{
+      border-collapse: collapse;
+      margin-top: 15px;
+    }}
+    th, td {{
+      border: 1px solid black;
+      padding: 6px 10px;
+    }}
+    #compass {{
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 2px solid black;
+      position: relative;
+      margin-top: 20px;
+    }}
+    #arrow {{
+      width: 4px;
+      height: 90px;
+      background: red;
+      position: absolute;
+      top: 10px;
+      left: 98px;
+      transform-origin: 50% 90%;
+      transform: rotate({theta_deg}deg);
+    }}
+  </style>
 </head>
+
 <body>
 
   <h2>Laser Turret Control</h2>
@@ -189,6 +248,42 @@ while True:
   <p><b>Location:</b> {location}</p>
   <p><b>Motor Angles:</b> {current}</p>
   <p><b>Laser:</b> {laser}</p>
+
+  <!-- =============== MOTOR VISUALIZATION =================== -->
+  <h3>Motor Angle Visualization</h3>
+
+  <div>
+    <div>Motor 1: <b>{motor1:.1f}°</b></div>
+    <div class="bar-container">
+      <div class="bar-fill" style="width:{motor1_perc:.1f}%; background:#4CAF50;"></div>
+    </div>
+  </div>
+
+  <div>
+    <div>Motor 2: <b>{motor2:.1f}°</b></div>
+    <div class="bar-container">
+      <div class="bar-fill" style="width:{motor2_perc:.1f}%; background:#2196F3;"></div>
+    </div>
+  </div>
+
+  <!-- =============== COMPASS VISUAL =================== -->
+  <h3>Turret Direction</h3>
+  <div id="compass">
+    <div id="arrow"></div>
+  </div>
+
+  <!-- =============== RELATIVE TURRET TABLE =================== -->
+  <h3>Turret Map (Relative Positions)</h3>
+  <table>
+    <tr>
+      <th>Turret ID</th>
+      <th>Δr (cm)</th>
+      <th>Δθ (°)</th>
+    </tr>
+    {turret_table}
+  </table>
+
+  <!-- ========================================================= -->
 
   <h3>Laser Control</h3>
   <form method="POST">
@@ -210,6 +305,7 @@ while True:
 </body>
 </html>
 """
+
 
 
     conn.send(b"HTTP/1.1 200 OK\r\n")
