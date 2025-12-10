@@ -65,7 +65,7 @@ def Run():
     motor = "Started"
     print("started")
 
-    for stud_id, (dist_r, dist_theta, theta) in dist_turrets.items():
+    for stud_id, (dist_r, dist_theta, theta, r) in dist_turrets.items():
             if stud_id == "7":
                 continue
             target = f"Turret {stud_id}"
@@ -91,7 +91,7 @@ def Run():
             laser = "ON"
             time.sleep(2)
 
-    for (dist_r, dist_theta, dist_z, theta) in dist_globes:
+    for (dist_r, dist_theta, dist_z, theta, r) in dist_globes:
         target = f"Globe: [{r}, {dist_theta}, {dist_z}]"
         location = f"(r={r:.2f}, theta={dist_theta:.2f}, z={dist_z:.2f})"
        
