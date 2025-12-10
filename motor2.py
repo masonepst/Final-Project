@@ -166,16 +166,16 @@ while True:
 
         # motor1 is bottom and motor2 is laser axis
 
-    # Motor bar percentages (0–180° mapped to 0–100%)
+    
     motor1_perc = (motor1 % 180) / 180 * 100
     motor2_perc = (motor2 % 180) / 180 * 100
 
-    # Compass arrow rotation
+
     theta_deg = 0
     if isinstance(target, str) and "Turret" in target:
         stud_id = target.split()[-1]
         if stud_id in dist_turrets:
-            theta_deg = math.degrees(dist_turrets[stud_id][2])  # actual θ
+            theta_deg = math.degrees(dist_turrets[stud_id][2])  
 
         
     # HTML response
@@ -251,7 +251,7 @@ while True:
     </div>
   </div>
 
-  <!-- =============== COMPASS VISUAL =================== -->
+  <!-- =============== COMPASS =================== -->
   <h3>Turret Direction</h3>
   <div id="compass">
     <div id="arrow"></div>
