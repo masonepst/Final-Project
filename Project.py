@@ -39,7 +39,7 @@ def my_turret_distances(turrets, globes):
 	my_turret = turrets["7"]
 	my_r = float(my_turret["r"])
 	my_theta = float(my_turret["theta"])
-	my_z = 0 # Height of motor
+	my_z = 8.255 # Height of motor
 
 	for stud_id, coords in turrets.items():
 		if stud_id == str(7):
