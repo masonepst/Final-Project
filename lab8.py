@@ -100,7 +100,7 @@ if __name__ == '__main__':
     m1.zero()
     m2.zero()
     m1.goAngle(90)
-    time.sleep[(1000)
+    time.sleep(1000)
     m1.goAngle(-45)
     delay(1000)
     m2.goAngle(-90)
