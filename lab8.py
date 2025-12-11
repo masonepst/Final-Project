@@ -95,11 +95,12 @@ if __name__ == '__main__':
     # Instantiate 2 Steppers:
     m1 = Stepper(s, lock1, newlock)
     m2 = Stepper(s, lock2, newlock)
-
+s
 
     m1.zero()
     m2.zero()
     m1.goAngle(90)
+    delay(1000)
     m1.goAngle(-45)
     m2.goAngle(-90)
     m2.goAngle(45)
