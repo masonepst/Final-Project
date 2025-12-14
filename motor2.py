@@ -168,14 +168,7 @@ while True:
 
     
     motor1_perc = (motor1 % 180) / 180 * 100
-    motor2_perc = (motor2 % 180) / 180 * 100
-
-
-    theta_deg = 0
-    if isinstance(target, str) and "Turret" in target:
-        stud_id = target.split()[-1]
-        if stud_id in dist_turrets:
-            theta_deg = math.degrees(dist_turrets[stud_id][2])  
+    motor2_perc = (motor2 % 180) / 180 * 100 
 
         
     # HTML response
@@ -184,6 +177,9 @@ while True:
 <head>
   <meta http-equiv="refresh" content="2">
   <style>
+    body {{
+      font-family: Arial;
+    }}
     .bar-container {{
       width: 300px; 
       height: 12px;
@@ -194,24 +190,6 @@ while True:
     .bar-fill {{
       height: 12px;
       border-radius: 6px;
-    }}
-    #compass {{
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      border: 2px solid black;
-      position: relative;
-      margin-top: 20px;
-    }}
-    #arrow {{
-      width: 4px;
-      height: 90px;
-      background: red;
-      position: absolute;
-      top: 10px;
-      left: 98px;
-      transform-origin: 50% 90%;
-      transform: rotate({theta_deg}deg);
     }}
   </style>
 </head>
@@ -240,29 +218,28 @@ while True:
   <div>
     <div>Motor 1: <b>{motor1:.1f}</b></div>
     <div class="bar-container">
-      <div class="bar-fill" style="width:{motor1_perc:.1f}%; background:#4CAF50;"></div>
+      <div class="bar-fill"
+           style="width:{motor1_perc:.1f}%; background:#4CAF50;"></div>
     </div>
   </div>
 
   <div>
     <div>Motor 2: <b>{motor2:.1f}</b></div>
     <div class="bar-container">
-      <div class="bar-fill" style="width:{motor2_perc:.1f}%; background:#2196F3;"></div>
+      <div class="bar-fill"
+           style="width:{motor2_perc:.1f}%; background:#2196F3;"></div>
     </div>
   </div>
-
-  <!-- =============== COMPASS =================== -->
-  <h3>Turret Direction</h3>
-  <div id="compass">
-    <div id="arrow"></div>
-  </div>
-
   <!-- ========================================================= -->
 
   <h3>Laser Control</h3>
   <form method="POST">
-    <button name="laser_on" value="1" style="width:120px;height:40px;">Laser ON</button>
-    <button name="laser_off" value="1" style="width:120px;height:40px;">Laser OFF</button>
+    <button name="laser_on" value="1" style="width:120px;height:40px;">
+      Laser ON
+    </button>
+    <button name="laser_off" value="1" style="width:120px;height:40px;">
+      Laser OFF
+    </button>
   </form>
 
   <h3>Manual Motor Control</h3>
@@ -273,12 +250,15 @@ while True:
   </form>
 
   <form method="POST">
-    <button name="zero" value="1" style="width:140px;height:40px;">ZERO MOTORS</button>
+    <button name="zero" value="1" style="width:140px;height:40px;">
+      ZERO MOTORS
+    </button>
   </form>
 
 </body>
 </html>
 """
+
 
 
 
