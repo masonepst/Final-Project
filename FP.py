@@ -130,8 +130,13 @@ while True:
         current_page = "main"
 
 
-    if "goto_angle" in data:
-        current_page = "angle"
+    if "goto_run" in data:
+        current_page = "run"
+
+
+    if "goto_calib" in data:
+        current_page = "calib"
+
 
     if "laser_on" in data:
         GPIO.output(25, GPIO.HIGH)
@@ -179,35 +184,36 @@ while True:
     motor2_perc = (motor2 % 180) / 180 * 100 
 
         
-    # HTML response
-    refresh = "<meta http-equiv=\"refresh\" content=\"2\">" if status == "Running" else ""
+    refresh = "<meta http-equiv='refresh' content='2'>" if current_page == "run" and status == "Running" else ""
 
 
+# ================= HTML =================
     if current_page == "main":
         html = f"""
         <!DOCTYPE html>
         <html>
-        <head>
-        {refresh}
-        </head>
         <body>
         <h2>Laser Turret Control</h2>
+        <form method='POST'><button style='width:220px;height:70px;font-size:22px;' name='start'>START</button></form>
+        <form method='POST'><button style='width:220px;height:60px;font-size:20px;' name='goto_calib'>CALIBRATION</button></form>
+        </body>
+        </html>
+        """
 
 
-        <form method='POST'><button name='start'>START</button></form>
-        <form method='POST'><button name='zero'>ZERO MOTORS</button></form>
-        <form method='POST'>
-        <button name='laser_on'>Laser ON</button>
-        <button name='laser_off'>Laser OFF</button>
-        </form>
-        <form method='POST'><button name='goto_angle'>SET ANGLE</button></form>
-
-
-        <h3>Status</h3>
+        elif current_page == "run":
+        html = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>{refresh}</head>
+        <body>
+        <h2>RUN STATUS</h2>
         <p>Status: {status}</p>
         <p>Target: {target}</p>
+        <p>Location: {location}</p>
         <p>Motors: {current}</p>
         <p>Laser: {laser}</p>
+        <form method='POST'><button style='width:200px;height:50px;font-size:18px;' name='goto_main'>BACK</button></form>
         </body>
         </html>
         """
@@ -218,17 +224,21 @@ while True:
         <!DOCTYPE html>
         <html>
         <body>
-        <h2>Set Motor Angles</h2>
-
-
+        <h2>CALIBRATION</h2>
         <form method='POST'>
         Motor1: <input type='number' step='0.1' name='m1_angle'><br><br>
         Motor2: <input type='number' step='0.1' name='m2_angle'><br><br>
-        <button>SUBMIT</button>
+        <button style='width:200px;height:45px;font-size:18px;'>SET ANGLES</button>
         </form>
-
-
-        <form method='POST'><button name='goto_main'>BACK</button></form>
+        <br>
+        <form method='POST'>
+        <button style='width:200px;height:45px;font-size:18px;' name='laser_on'>LASER ON</button>
+        <button style='width:200px;height:45px;font-size:18px;' name='laser_off'>LASER OFF</button>
+        </form>
+        <br>
+        <form method='POST'><button style='width:200px;height:45px;font-size:18px;' name='zero'>ZERO MOTORS</button></form>
+        <br>
+        <form method='POST'><button style='width:200px;height:45px;font-size:18px;' name='goto_main'>BACK</button></form>
         </body>
         </html>
         """
