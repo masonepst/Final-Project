@@ -201,7 +201,7 @@ while True:
         """
 
 
-        elif current_page == "run":
+    elif current_page == "run":
         html = f"""
         <!DOCTYPE html>
         <html>
