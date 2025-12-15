@@ -183,65 +183,181 @@ while True:
     motor1_perc = (motor1 % 180) / 180 * 100
     motor2_perc = (motor2 % 180) / 180 * 100 
 
-        
+
+    base_style = """
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: #e5e7eb;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .card {
+        background: #020617;
+        padding: 30px;
+        width: 420px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        text-align: center;
+      }
+      h1 {
+        margin-top: 0;
+        margin-bottom: 20px;
+      }
+      button {
+        width: 100%;
+        height: 56px;
+        font-size: 18px;
+        border-radius: 12px;
+        border: none;
+        margin: 10px 0;
+        cursor: pointer;
+      }
+      .primary {
+        background: #2563eb;
+        color: white;
+      }
+      .secondary {
+        background: #334155;
+        color: white;
+      }
+      .bar {
+        background: #1e293b;
+        height: 12px;
+        border-radius: 6px;
+        margin-bottom: 14px;
+      }
+      .fill1 {
+        background: #22c55e;
+        height: 12px;
+        border-radius: 6px;
+      }
+      .fill2 {
+        background: #38bdf8;
+        height: 12px;
+        border-radius: 6px;
+      }
+      input {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 10px;
+        border: none;
+        margin-bottom: 12px;
+      }
+      .label {
+        text-align: left;
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+    </style>
+    """
+
     refresh = "<meta http-equiv='refresh' content='2'>" if current_page == "run" and status == "Running" else ""
 
-
-# ================= HTML =================
     if current_page == "main":
         html = f"""
-        <!DOCTYPE html>
-        <html>
-        <body>
-        <h2>Laser Turret Control</h2>
-        <form method='POST'><button style='width:220px;height:70px;font-size:22px;' name='start'>START</button></form>
-        <form method='POST'><button style='width:220px;height:60px;font-size:20px;' name='goto_calib'>CALIBRATION</button></form>
-        </body>
-        </html>
-        """
+<!DOCTYPE html>
+<html>
+<head>
+{base_style}
+</head>
+<body>
+  <div class="card">
+    <h1>Turret Sweep</h1>
 
+    <form method="POST">
+      <button class="primary" name="start">START</button>
+    </form>
+
+    <form method="POST">
+      <button class="secondary" name="goto_calib">CALIBRATION</button>
+    </form>
+  </div>
+</body>
+</html>
+"""
 
     elif current_page == "run":
         html = f"""
-        <!DOCTYPE html>
-        <html>
-        <head>{refresh}</head>
-        <body>
-        <h2>RUN STATUS</h2>
-        <p>Status: {status}</p>
-        <p>Target: {target}</p>
-        <p>Location: {location}</p>
-        <p>Motors: {current}</p>
-        <p>Laser: {laser}</p>
-        <form method='POST'><button style='width:200px;height:50px;font-size:18px;' name='goto_main'>BACK</button></form>
-        </body>
-        </html>
-        """
+<!DOCTYPE html>
+<html>
+<head>
+{refresh}
+{base_style}
+</head>
+<body>
+  <div class="card">
+    <h1>Turret Sweep</h1>
 
+    <p><b>Status:</b> {status}</p>
+    <p><b>Target:</b> {target}</p>
+    <p><b>Location:</b> {location}</p>
+    <p><b>Laser:</b> {laser}</p>
 
-    else:
+    <p>Motor 1: {motor1:.1f}°</p>
+    <div class="bar">
+      <div class="fill1" style="width:{motor1_perc:.1f}%"></div>
+    </div>
+
+    <p>Motor 2: {motor2:.1f}°</p>
+    <div class="bar">
+      <div class="fill2" style="width:{motor2_perc:.1f}%"></div>
+    </div>
+
+    <form method="POST">
+      <button class="secondary" name="goto_main">BACK</button>
+    </form>
+  </div>
+</body>
+</html>
+"""
+
+    else:  # calibration
         html = f"""
-        <!DOCTYPE html>
-        <html>
-        <body>
-        <h2>CALIBRATION</h2>
-        <form method='POST'>
-        Motor1: <input type='number' step='0.1' name='m1_angle'><br><br>
-        Motor2: <input type='number' step='0.1' name='m2_angle'><br><br>
-        <button style='width:200px;height:45px;font-size:18px;'>SET ANGLES</button>
-        </form>
-        <br>
-        <form method='POST'>
-        <button style='width:200px;height:45px;font-size:18px;' name='laser_on'>LASER ON</button>
-        <button style='width:200px;height:45px;font-size:18px;' name='laser_off'>LASER OFF</button>
-        </form>
-        <br>
-        <form method='POST'><button style='width:200px;height:45px;font-size:18px;' name='zero'>ZERO MOTORS</button></form>
-        <br>
-        <form method='POST'><button style='width:200px;height:45px;font-size:18px;' name='goto_main'>BACK</button></form>
-        </body>
-        </html>
-        """
+<!DOCTYPE html>
+<html>
+<head>
+{base_style}
+</head>
+<body>
+  <div class="card">
+    <h1>Calibration</h1>
+
+    <form method="POST">
+      <div class="label">Motor 1 Angle</div>
+      <input type="number" step="0.1" name="m1_angle">
+
+      <div class="label">Motor 2 Angle</div>
+      <input type="number" step="0.1" name="m2_angle">
+
+      <button class="primary">SET ANGLES</button>
+    </form>
+
+    <form method="POST">
+      <button class="secondary" name="laser_on">LASER ON</button>
+    </form>
+
+    <form method="POST">
+      <button class="secondary" name="laser_off">LASER OFF</button>
+    </form>
+
+    <form method="POST">
+      <button class="secondary" name="zero">ZERO MOTORS</button>
+    </form>
+
+    <form method="POST">
+      <button class="secondary" name="goto_main">BACK</button>
+    </form>
+  </div>
+</body>
+</html>
+"""
+
 
 
 
