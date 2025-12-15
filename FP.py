@@ -300,12 +300,12 @@ while True:
     <p><b>Location:</b> {location}</p>
     <p><b>Laser:</b> {laser}</p>
 
-    <p>Motor 1: {motor1:.1f}°</p>
+    <p>Motor 1: {motor1:.1f}</p>
     <div class="bar">
       <div class="fill1" style="width:{motor1_perc:.1f}%"></div>
     </div>
 
-    <p>Motor 2: {motor2:.1f}°</p>
+    <p>Motor 2: {motor2:.1f}</p>
     <div class="bar">
       <div class="fill2" style="width:{motor2_perc:.1f}%"></div>
     </div>
