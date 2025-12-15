@@ -171,6 +171,7 @@ while True:
             current = f"motor1={motor1:.1f}, motor2={motor2:.1f}"
 
     if "start" in data:
+        current_page = "run"
         t = threading.Thread(target=Run, daemon=True)
         t.start()
 
