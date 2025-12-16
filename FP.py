@@ -109,11 +109,11 @@ def Run():
 
         if my_theta>theta:
 
-                dif = my_theta - theta
-                motor1 = (180 - math.degrees(dif)) / 2
-            else:
-                dif = theta - my_theta
-                motor1 = -1 * (180 - math.degrees(dif)) / 2
+            dif = my_theta - theta
+            motor1 = (180 - math.degrees(dif)) / 2
+        else:
+            dif = theta - my_theta
+            motor1 = -1 * (180 - math.degrees(dif)) / 2
                 
         length = 2 * my_r * math.cos(math.radians(motor1))
         motor2 = math.degrees(math.atan2(dist_z / length))
