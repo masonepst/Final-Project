@@ -4,7 +4,7 @@ import math
 
 def JSON_pull():
 
-	url = "http://192.168.1.254:8000/positions.json" # "http://172.20.10.3:8000/positions.json"
+	url = "http://172.20.10.3:8000/positions.json" # "http://192.168.1.254:8000/positions.json"
 	response = requests.get(url)
 
 	data = response.json()
