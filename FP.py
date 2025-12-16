@@ -79,10 +79,10 @@ def Run():
             if my_theta>theta:
 
                 dif = my_theta - theta
-                motor1 = (180 - math.degrees(dif)) / 2
+                motor1 = -1 * (180 - math.degrees(dif)) / 2
             else:
                 dif = theta - my_theta
-                motor1 = -1 * (180 - math.degrees(dif)) / 2
+                motor1 = (180 - math.degrees(dif)) / 2
 
             m1.goAngle(motor1)
 
