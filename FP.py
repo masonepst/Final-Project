@@ -93,7 +93,7 @@ def Run():
 
             
 
-            time.sleep(2)
+            time.sleep(5)
 
             GPIO.output(25, GPIO.HIGH)
             laser = "ON"
@@ -122,7 +122,7 @@ def Run():
         m1.goAngle(motor1)
         m2.goAngle(motor2)
 
-        time.sleep(2)
+        time.sleep(5)
 
         GPIO.output(25, GPIO.HIGH)
         laser = "ON"
