@@ -117,6 +117,7 @@ def Run():
                 
         length = 2 * my_r * math.cos(math.radians(motor1))
         motor2 = math.degrees(math.atan2(dist_z, length))
+        motor2 = -1 * motor2
 
         current = f"Motor1={motor1:.1f}, Motor2={motor2:.1f}"
         m1.goAngle(motor1)
